@@ -12,14 +12,14 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MemberRepository repository = new MemoryMemberRepository();
-
-        MemberService service = new MemberService(repository);
+        AppConfig appConfig = new AppConfig();
+        MemberService service = appConfig.memberService();
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.println("멋사 멤버 관리 시스템 - Step 2 (DI 적용)");
-        System.out.println("구현체: " + repository.getClass().getSimpleName() + "\n");
+        System.out.println("멋사 멤버 관리 시스템 - Step 2 (IoC / DI)");
+        System.out.println("※ 구현체: "
+                + appConfig.memberRepository().getClass().getSimpleName() + "\n");
 
         while (true) {
             printMenu();
@@ -34,7 +34,7 @@ public class Main {
                     sc.close();
                     return;
                 }
-                default -> System.out.println("⚠ 올바른 번호를 입력해주세요.\n");
+                default -> System.out.println("올바른 번호를 입력해주세요.\n");
             }
         }
     }
@@ -61,7 +61,7 @@ public class Main {
         List<Role> members = service.findAll();
         if (members.isEmpty()) { System.out.println("등록된 멤버가 없습니다.\n"); return; }
 
-        System.out.println("\n=== 전체 멤버 (" + members.size() + "명) ===");
+        System.out.println("\n전체 멤버 (" + members.size() + "명)");
         for (Role m : members) {
             System.out.println(m.getDetailInfo());
         }
@@ -76,7 +76,7 @@ public class Main {
         if (result.isEmpty()) {
             System.out.println("'" + name + "' 에 해당하는 멤버가 없습니다.\n");
         } else {
-            System.out.println("\n=== 검색 결과 ===");
+            System.out.println("\n검색 결과");
             System.out.println(result.get().getDetailInfo());
         }
     }
